@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -57,6 +60,30 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        urgency: {
+          low: "hsl(var(--urgency-low))",
+          "low-bg": "hsl(var(--urgency-low-bg))",
+          medium: "hsl(var(--urgency-medium))",
+          "medium-bg": "hsl(var(--urgency-medium-bg))",
+          high: "hsl(var(--urgency-high))",
+          "high-bg": "hsl(var(--urgency-high-bg))",
+          critical: "hsl(var(--urgency-critical))",
+          "critical-bg": "hsl(var(--urgency-critical-bg))",
+        },
+        category: {
+          work: "hsl(var(--category-work))",
+          personal: "hsl(var(--category-personal))",
+          shopping: "hsl(var(--category-shopping))",
+          health: "hsl(var(--category-health))",
+        },
+        label: {
+          blue: "hsl(var(--label-blue))",
+          purple: "hsl(var(--label-purple))",
+          green: "hsl(var(--label-green))",
+          pink: "hsl(var(--label-pink))",
+          orange: "hsl(var(--label-orange))",
+          cyan: "hsl(var(--label-cyan))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,20 +92,12 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
       },
       animation: {
