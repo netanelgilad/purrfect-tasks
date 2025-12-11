@@ -11,6 +11,7 @@ const INITIAL_TODOS: Todo[] = [
     category: 'work',
     urgency: 'high',
     labels: [DEFAULT_LABELS[0], DEFAULT_LABELS[5]],
+    dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
     createdAt: new Date(),
   },
   {
@@ -20,6 +21,7 @@ const INITIAL_TODOS: Todo[] = [
     category: 'shopping',
     urgency: 'medium',
     labels: [DEFAULT_LABELS[1]],
+    dueDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     createdAt: new Date(),
   },
   {
@@ -38,6 +40,7 @@ const INITIAL_TODOS: Todo[] = [
     category: 'personal',
     urgency: 'critical',
     labels: [DEFAULT_LABELS[0]],
+    dueDate: new Date(),
     createdAt: new Date(),
   },
 ];
@@ -50,7 +53,8 @@ export function useTodos() {
     title: string,
     category: Category,
     urgency: Urgency,
-    labels: Label[]
+    labels: Label[],
+    dueDate?: Date
   ) => {
     const newTodo: Todo = {
       id: generateId(),
@@ -59,6 +63,7 @@ export function useTodos() {
       category,
       urgency,
       labels,
+      dueDate,
       createdAt: new Date(),
     };
     setTodos(prev => [newTodo, ...prev]);

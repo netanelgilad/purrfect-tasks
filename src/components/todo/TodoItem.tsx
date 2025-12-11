@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { format, isToday, isTomorrow, isPast, isThisWeek } from 'date-fns';
 import { Todo } from '@/types/todo';
 import { cn } from '@/lib/utils';
-import { Check, Trash2 } from 'lucide-react';
+import { Check, Trash2, CalendarIcon } from 'lucide-react';
 import { UrgencyBadge } from './UrgencyBadge';
 import { LabelBadge } from './LabelBadge';
 import { CategoryIcon } from './CategoryIcon';
@@ -12,6 +13,28 @@ interface TodoItemProps {
   onDelete: (id: string) => void;
 }
 
+function formatDueDate(date: Date): { text: string; isOverdue: boolean; isUrgent: boolean } {
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  
+  const isOverdue = isPast(date) && !isToday(date);
+  const isUrgent = isToday(date) || isTomorrow(date);
+  
+  if (isToday(date)) {
+    return { text: 'Today', isOverdue: false, isUrgent: true };
+  }
+  if (isTomorrow(date)) {
+    return { text: 'Tomorrow', isOverdue: false, isUrgent: true };
+  }
+  if (isOverdue) {
+    return { text: format(date, 'MMM d'), isOverdue: true, isUrgent: false };
+  }
+  if (isThisWeek(date)) {
+    return { text: format(date, 'EEEE'), isOverdue: false, isUrgent: false };
+  }
+  return { text: format(date, 'MMM d'), isOverdue: false, isUrgent: false };
+}
+
 export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -19,6 +42,8 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
     setIsDeleting(true);
     setTimeout(() => onDelete(todo.id), 200);
   };
+
+  const dueDateInfo = todo.dueDate ? formatDueDate(todo.dueDate) : null;
 
   return (
     <div
@@ -57,9 +82,22 @@ export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
                 {todo.title}
               </p>
               
-              {/* Labels & Urgency */}
+              {/* Labels, Urgency & Due Date */}
               <div className="flex flex-wrap items-center gap-2 mt-2">
                 <UrgencyBadge urgency={todo.urgency} />
+                {dueDateInfo && !todo.completed && (
+                  <span
+                    className={cn(
+                      'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium',
+                      dueDateInfo.isOverdue && 'bg-destructive/10 text-destructive',
+                      dueDateInfo.isUrgent && !dueDateInfo.isOverdue && 'bg-amber-500/10 text-amber-600',
+                      !dueDateInfo.isOverdue && !dueDateInfo.isUrgent && 'bg-muted text-muted-foreground'
+                    )}
+                  >
+                    <CalendarIcon className="w-3 h-3" />
+                    {dueDateInfo.text}
+                  </span>
+                )}
                 {todo.labels.map(label => (
                   <LabelBadge key={label.id} label={label} />
                 ))}

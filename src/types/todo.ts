@@ -17,6 +17,7 @@ export interface Todo {
   category: Category;
   urgency: Urgency;
   labels: Label[];
+  dueDate?: Date;
   createdAt: Date;
 }
 
