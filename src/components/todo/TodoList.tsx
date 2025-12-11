@@ -21,10 +21,17 @@ export function TodoList({ todos, onToggle, onDelete }: TodoListProps) {
     );
   }
 
-  // Sort: uncompleted first, then by urgency
+  // Sort: uncompleted first, then by due date, then by urgency
   const urgencyOrder = { critical: 0, high: 1, medium: 2, low: 3 };
   const sortedTodos = [...todos].sort((a, b) => {
     if (a.completed !== b.completed) return a.completed ? 1 : -1;
+    // Tasks with due dates come first, sorted by earliest deadline
+    if (a.dueDate && b.dueDate) {
+      const dateDiff = new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+      if (dateDiff !== 0) return dateDiff;
+    }
+    if (a.dueDate && !b.dueDate) return -1;
+    if (!a.dueDate && b.dueDate) return 1;
     return urgencyOrder[a.urgency] - urgencyOrder[b.urgency];
   });
 

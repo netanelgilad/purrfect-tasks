@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { format } from 'date-fns';
 import { Category, Urgency, Label, CATEGORIES, URGENCY_LEVELS } from '@/types/todo';
 import { cn } from '@/lib/utils';
-import { Plus, X, Tag } from 'lucide-react';
+import { Plus, Tag, CalendarIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { LabelBadge } from './LabelBadge';
+import { Calendar } from '@/components/ui/calendar';
 import {
   Select,
   SelectContent,
@@ -20,7 +22,7 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 
 interface AddTodoFormProps {
-  onAdd: (title: string, category: Category, urgency: Urgency, labels: Label[]) => void;
+  onAdd: (title: string, category: Category, urgency: Urgency, labels: Label[], dueDate?: Date) => void;
   availableLabels: Label[];
 }
 
@@ -30,16 +32,18 @@ export function AddTodoForm({ onAdd, availableLabels }: AddTodoFormProps) {
   const [category, setCategory] = useState<Category>('work');
   const [urgency, setUrgency] = useState<Urgency>('medium');
   const [selectedLabels, setSelectedLabels] = useState<Label[]>([]);
+  const [dueDate, setDueDate] = useState<Date | undefined>();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
 
-    onAdd(title.trim(), category, urgency, selectedLabels);
+    onAdd(title.trim(), category, urgency, selectedLabels, dueDate);
     setTitle('');
     setCategory('work');
     setUrgency('medium');
     setSelectedLabels([]);
+    setDueDate(undefined);
     setIsOpen(false);
   };
 
@@ -112,6 +116,32 @@ export function AddTodoForm({ onAdd, availableLabels }: AddTodoFormProps) {
               ))}
             </SelectContent>
           </Select>
+
+          {/* Due Date */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className={cn(
+                  "gap-2",
+                  !dueDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="w-4 h-4" />
+                {dueDate ? format(dueDate, "MMM d") : "Due date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={dueDate}
+                onSelect={setDueDate}
+                initialFocus
+                className="pointer-events-auto"
+              />
+            </PopoverContent>
+          </Popover>
 
           {/* Labels */}
           <Popover>
