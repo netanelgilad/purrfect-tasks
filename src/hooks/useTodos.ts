@@ -81,6 +81,14 @@ export function useTodos() {
     setTodos(prev => prev.filter(todo => todo.id !== id));
   }, []);
 
+  const updateTodo = useCallback((id: string, updates: Partial<Omit<Todo, 'id' | 'createdAt'>>) => {
+    setTodos(prev =>
+      prev.map(todo =>
+        todo.id === id ? { ...todo, ...updates } : todo
+      )
+    );
+  }, []);
+
   const getFilteredTodos = useCallback((category: Category | 'all') => {
     if (category === 'all') return todos;
     return todos.filter(todo => todo.category === category);
@@ -98,6 +106,7 @@ export function useTodos() {
     addTodo,
     toggleTodo,
     deleteTodo,
+    updateTodo,
     getFilteredTodos,
     stats,
   };

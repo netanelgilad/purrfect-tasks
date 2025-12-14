@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { format, isToday, isTomorrow, isPast, isThisWeek } from 'date-fns';
 import { Todo } from '@/types/todo';
 import { cn } from '@/lib/utils';
@@ -37,25 +38,33 @@ function formatDueDate(date: Date): { text: string; isOverdue: boolean; isUrgent
 
 export function TodoItem({ todo, onToggle, onDelete }: TodoItemProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const navigate = useNavigate();
 
-  const handleDelete = () => {
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsDeleting(true);
     setTimeout(() => onDelete(todo.id), 200);
+  };
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onToggle(todo.id);
   };
 
   const dueDateInfo = todo.dueDate ? formatDueDate(todo.dueDate) : null;
 
   return (
     <div
+      onClick={() => navigate(`/task/${todo.id}`)}
       className={cn(
-        'group bg-card rounded-xl p-4 shadow-task hover:shadow-task-hover transition-task animate-slide-in',
+        'group bg-card rounded-xl p-4 shadow-task hover:shadow-task-hover transition-task animate-slide-in cursor-pointer',
         isDeleting && 'animate-fade-out'
       )}
     >
       <div className="flex items-start gap-3">
         {/* Checkbox */}
         <button
-          onClick={() => onToggle(todo.id)}
+          onClick={handleToggle}
           className={cn(
             'mt-0.5 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0',
             todo.completed
