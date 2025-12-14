@@ -13,26 +13,37 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/category/:name2" element={<CategoryPage />} />
-            <Route path="/task/:id" element={<TaskDetailPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const { home, dashboard, settings, category, taskPage, other } = {
+    home: '/',
+    dashboard: '/dashboard',
+    settings: '/settings',
+    category: '/category/:name2',
+    taskPage: '/task/:id',
+    other: '*'
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Layout>
+            <Routes>
+              <Route path={home} element={<Index />} />
+              <Route path={dashboard} element={<Dashboard />} />
+              <Route path={settings} element={<Settings />} />
+              <Route path={category} element={<CategoryPage />} />
+              <Route path={taskPage} element={<TaskDetailPage />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path={other} element={<NotFound />} />
+            </Routes>
+          </Layout>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
