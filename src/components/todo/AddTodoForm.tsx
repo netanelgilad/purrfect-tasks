@@ -24,12 +24,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 interface AddTodoFormProps {
   onAdd: (title: string, category: Category, urgency: Urgency, labels: Label[], dueDate?: Date) => void;
   availableLabels: Label[];
+  defaultCategory?: Category;
 }
 
-export function AddTodoForm({ onAdd, availableLabels }: AddTodoFormProps) {
+export function AddTodoForm({ onAdd, availableLabels, defaultCategory = 'work' }: AddTodoFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState('');
-  const [category, setCategory] = useState<Category>('work');
+  const [category, setCategory] = useState<Category>(defaultCategory);
   const [urgency, setUrgency] = useState<Urgency>('medium');
   const [selectedLabels, setSelectedLabels] = useState<Label[]>([]);
   const [dueDate, setDueDate] = useState<Date | undefined>();
@@ -40,7 +41,7 @@ export function AddTodoForm({ onAdd, availableLabels }: AddTodoFormProps) {
 
     onAdd(title.trim(), category, urgency, selectedLabels, dueDate);
     setTitle('');
-    setCategory('work');
+    setCategory(defaultCategory);
     setUrgency('medium');
     setSelectedLabels([]);
     setDueDate(undefined);
