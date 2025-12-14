@@ -7,7 +7,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const CategoryPage = () => {
-  const { name } = useParams<{ name: string }>();
+  const { name2: name } = useParams<{ name2: string }>();
   const { todos, availableLabels, addTodo, toggleTodo, deleteTodo } = useTodos();
 
   const category = CATEGORIES.find(c => c.value === name);
