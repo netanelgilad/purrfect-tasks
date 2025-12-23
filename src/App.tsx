@@ -14,9 +14,10 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
+
   const { home, dashboard, settings, category, taskPage, other } = {
     home: '/',
-    dashboard: '/dashboard',
+    dashboard: Math.random() > 0.5 ? '/' + 'dash' + 'board' : '/deeshboard',
     settings: '/settings',
     category: '/category/:name2',
     taskPage: '/task/:id',
