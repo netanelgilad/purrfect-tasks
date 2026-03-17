@@ -26,7 +26,7 @@ const categoryItems = [
 
 export function AppSidebar() {
   return (
-    <Sidebar className="bg-sidebar border-r border-sidebar-border">
+    <Sidebar className="border-r border-sidebar-border" style={{ background: 'linear-gradient(180deg, hsl(220 20% 14%) 0%, hsl(220 25% 8%) 100%)' }}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
