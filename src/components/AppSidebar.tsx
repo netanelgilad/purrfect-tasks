@@ -3,6 +3,7 @@ import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
   SidebarContent,
+  SidebarHeader,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -10,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import taskflowLogo from "@/assets/taskflow-logo.png";
 
 const mainItems = [
   { title: "Tasks", url: "/", icon: Home },
