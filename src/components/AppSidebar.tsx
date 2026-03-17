@@ -3,6 +3,7 @@ import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
   SidebarContent,
+  SidebarHeader,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -10,6 +11,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import taskflowLogo from "@/assets/taskflow-logo.png";
 
 const mainItems = [
   { title: "Tasks", url: "/", icon: Home },
@@ -27,6 +29,10 @@ const categoryItems = [
 export function AppSidebar() {
   return (
     <Sidebar className="border-r border-sidebar-border" style={{ background: 'linear-gradient(180deg, hsl(220 20% 14%) 0%, hsl(220 25% 8%) 100%)' }}>
+      <SidebarHeader className="px-4 py-5 flex items-center gap-3">
+        <img src={taskflowLogo} alt="TaskFlow" className="h-8 w-8 rounded-md" />
+        <span className="text-lg font-bold text-sidebar-foreground tracking-tight">TaskFlow</span>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
